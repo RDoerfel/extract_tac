@@ -78,7 +78,7 @@ def test_get_mean_from():
     assert roi_mean == expected_roi_mean
 
 
-def test__get_mean_from_roi_mask():
+def test_get_mean_from_roi_mask():
     mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     roi_index = [1, 4, 7]
     roi = _create_roi_mask_from_indices(mask, roi_index)
@@ -88,7 +88,7 @@ def test__get_mean_from_roi_mask():
     assert roi_mean == expected_roi_mean
 
 
-def test__get_mean_from_roi_mask_empty():
+def test_get_mean_from_roi_mask_empty():
     mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     roi_index = []
     roi = _create_roi_mask_from_indices(mask, roi_index)
@@ -97,7 +97,7 @@ def test__get_mean_from_roi_mask_empty():
     assert np.isnan(roi_mean)
 
 
-def test__get_mean_from_roi_mask_no_match():
+def test_get_mean_from_roi_mask_no_match():
     mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     roi_index = [10, 11, 12]
     roi = _create_roi_mask_from_indices(mask, roi_index)
@@ -106,7 +106,7 @@ def test__get_mean_from_roi_mask_no_match():
     assert np.isnan(roi_mean)
 
 
-def test__get_tac_from_roi_mask():
+def test_get_tac_from_roi_mask():
     mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     roi_index = [1]
     roi = _create_roi_mask_from_indices(mask, roi_index)
@@ -116,7 +116,7 @@ def test__get_tac_from_roi_mask():
     np.testing.assert_array_equal(tac, expected_tac)
 
 
-def test__get_tac_from_roi_mask_mean():
+def test_get_tac_from_roi_mask_mean():
     mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     roi_index = [1, 2, 3]
     roi = _create_roi_mask_from_indices(mask, roi_index)
@@ -126,7 +126,7 @@ def test__get_tac_from_roi_mask_mean():
     np.testing.assert_array_equal(tac, expected_tac)
 
 
-def test__get_tac_from_roi_mask_empty():
+def test_get_tac_from_roi_mask_empty():
     mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     roi_index = []
     roi = _create_roi_mask_from_indices(mask, roi_index)
@@ -136,7 +136,7 @@ def test__get_tac_from_roi_mask_empty():
     np.testing.assert_array_equal(tac, expected_tac)
 
 
-def test__get_tac_from_roi_mask_no_match():
+def test_get_tac_from_roi_mask_no_match():
     mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     roi_index = [10, 11, 12]
     roi = _create_roi_mask_from_indices(mask, roi_index)
