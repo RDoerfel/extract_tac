@@ -1,0 +1,316 @@
+[
+    {
+        "name": "Cerebellum-Exterior",
+        "index": [
+            6,
+            45
+        ]
+    },
+    {
+        "name": "Cerebellum-White-Matter",
+        "index": [
+            7,
+            46
+        ]
+    },
+    {
+        "name": "Cerebellum-Cortex",
+        "index": [
+            8,
+            47
+        ]
+    },
+    {
+        "name": "Caudate",
+        "index": [
+            11,
+            50
+        ]
+    },
+    {
+        "name": "Accumbens-area",
+        "index": [
+            26,
+            58
+        ]
+    },
+    {
+        "name": "Pallidum",
+        "index": [
+            13,
+            52
+        ]
+    },
+    {
+        "name": "Putamen",
+        "index": [
+            12,
+            51
+        ]
+    },
+    {
+        "name": "Thalamus-Proper",
+        "index": [
+            10,
+            49
+        ]
+    },
+    {
+        "name": "Brain-Stem",
+        "index": [
+            16
+        ]
+    },
+    {
+        "name": "Hippocampus",
+        "index": [
+            17,
+            53
+        ]
+    },
+    {
+        "name": "Amygdala",
+        "index": [
+            18,
+            54
+        ]
+    },
+    {
+        "name": "ctx-insula",
+        "index": [
+            1035,
+            2035
+        ]
+    },
+    {
+        "name": "ctx-caudalanteriorcingulate",
+        "index": [
+            1002,
+            2002
+        ]
+    },
+    {
+        "name": "ctx-rostralanteriorcingulate",
+        "index": [
+            1026,
+            2026
+        ]
+    },
+    {
+        "name": "ctx-isthmuscingulate",
+        "index": [
+            1010,
+            2010
+        ]
+    },
+    {
+        "name": "ctx-posteriorcingulate",
+        "index": [
+            1023,
+            2023
+        ]
+    },
+    {
+        "name": "ctx-paracentral",
+        "index": [
+            1017,
+            2017
+        ]
+    },
+    {
+        "name": "ctx-precentral",
+        "index": [
+            1024,
+            2024
+        ]
+    },
+    {
+        "name": "ctx-parsopercularis",
+        "index": [
+            1018,
+            2018
+        ]
+    },
+    {
+        "name": "ctx-parstriangularis",
+        "index": [
+            1020,
+            2020
+        ]
+    },
+    {
+        "name": "ctx-rostralmiddlefrontal",
+        "index": [
+            1027,
+            2027
+        ]
+    },
+    {
+        "name": "ctx-caudalmiddlefrontal",
+        "index": [
+            1003,
+            2003
+        ]
+    },
+    {
+        "name": "ctx-frontalpole",
+        "index": [
+            1032,
+            2032
+        ]
+    },
+    {
+        "name": "ctx-medialorbitofrontal",
+        "index": [
+            1014,
+            2014
+        ]
+    },
+    {
+        "name": "ctx-superiorfrontal",
+        "index": [
+            1028,
+            2028
+        ]
+    },
+    {
+        "name": "ctx-lateralorbitofrontal",
+        "index": [
+            1012,
+            2012
+        ]
+    },
+    {
+        "name": "ctx-parsorbitalis",
+        "index": [
+            1019,
+            2019
+        ]
+    },
+    {
+        "name": "ctx-inferiortemporal",
+        "index": [
+            1009,
+            2009
+        ]
+    },
+    {
+        "name": "ctx-middletemporal",
+        "index": [
+            1015,
+            2015
+        ]
+    },
+    {
+        "name": "ctx-bankssts",
+        "index": [
+            1001,
+            2001
+        ]
+    },
+    {
+        "name": "ctx-superiortemporal",
+        "index": [
+            1030,
+            2030
+        ]
+    },
+    {
+        "name": "ctx-transversetemporal",
+        "index": [
+            1034,
+            2034
+        ]
+    },
+    {
+        "name": "ctx-inferiorparietal",
+        "index": [
+            1008,
+            2008
+        ]
+    },
+    {
+        "name": "ctx-postcentral",
+        "index": [
+            1022,
+            2022
+        ]
+    },
+    {
+        "name": "ctx-superiorparietal",
+        "index": [
+            1029,
+            2029
+        ]
+    },
+    {
+        "name": "ctx-supramarginal",
+        "index": [
+            1031,
+            2031
+        ]
+    },
+    {
+        "name": "ctx-precuneus",
+        "index": [
+            1025,
+            2025
+        ]
+    },
+    {
+        "name": "ctx-lateraloccipital",
+        "index": [
+            1011,
+            2011
+        ]
+    },
+    {
+        "name": "ctx-cuneus",
+        "index": [
+            1005,
+            2005
+        ]
+    },
+    {
+        "name": "ctx-lingual",
+        "index": [
+            1013,
+            2013
+        ]
+    },
+    {
+        "name": "ctx-pericalcarine",
+        "index": [
+            1021,
+            2021
+        ]
+    },
+    {
+        "name": "ctx-parahippocampal",
+        "index": [
+            1016,
+            2016
+        ]
+    },
+    {
+        "name": "ctx-entorhinal",
+        "index": [
+            1006,
+            2006
+        ]
+    },
+    {
+        "name": "ctx-temporalpole",
+        "index": [
+            1033,
+            2033
+        ]
+    },
+    {
+        "name": "ctx-fusiform",
+        "index": [
+            1007,
+            2007
+        ]
+    }
+]
