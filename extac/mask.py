@@ -32,3 +32,43 @@ def _get_tac_from_roi_mask(dynamic_image: np.array, roi_mask: np.array) -> np.ar
     for i, frame in enumerate(np.moveaxis(dynamic_image, -1, 0)):
         tac[i] = _get_mean_from_roi_mask(frame, roi_mask)
     return tac
+
+
+def get_mean_from_roi(image: np.array, mask: np.array, index: list) -> float:
+    """Get the mean value of the image in the region of interest defined by the index.
+
+    Parameters
+    ----------
+    image : np.array
+        The image data.
+    mask : np.array
+        The mask data.
+
+    Returns
+    -------
+    float
+        The mean value of the image in the region of interest.
+    """
+    roi_mask = _create_roi_mask_from_indices(mask, index)
+    roi_mean = _get_mean_from_roi_mask(image, roi_mask)
+    return roi_mean
+
+
+def get_tac_from_roi(image: np.array, mask: np.array, index: list):
+    """Get the time activity curve of the image in the region of interest defined by the index.
+
+    Parameters
+    ----------
+    image : np.array
+        The image data.
+    mask : np.array
+        The mask data.
+
+    Returns
+    -------
+    np.array
+        The time activity curve of the image in the region of interest.
+    """
+    roi_mask = _create_roi_mask_from_indices(mask, index)
+    roi_tac = _get_tac_from_roi_mask(image, roi_mask)
+    return roi_tac

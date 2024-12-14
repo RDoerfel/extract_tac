@@ -3,6 +3,8 @@ from extac.mask import _get_values_in_roi
 from extac.mask import _get_mean_from
 from extac.mask import _get_mean_from_roi_mask
 from extac.mask import _get_tac_from_roi_mask
+from extac.mask import get_mean_from_roi
+from extac.mask import get_tac_from_roi
 import numpy as np
 
 
@@ -143,4 +145,22 @@ def test_get_tac_from_roi_mask_no_match():
     image = np.repeat(mask[:, :, np.newaxis], 5, axis=2)
     tac = _get_tac_from_roi_mask(image, roi)
     expected_tac = np.array(np.nan * 5)
+    np.testing.assert_array_equal(tac, expected_tac)
+
+
+def test_get_mean_from_roi():
+    roi_index = [1, 2, 3]
+    mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    mean = get_mean_from_roi(image, mask, roi_index)
+    expected_mean = np.array([1, 2, 3]).mean()
+    assert mean == expected_mean
+
+
+def test_get_tac_from_roi():
+    roi_index = [1, 2, 3]
+    mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image = np.repeat(mask[:, :, np.newaxis], 5, axis=2)
+    tac = get_tac_from_roi(image, mask, roi_index)
+    expected_tac = np.array([2, 2, 2, 2, 2])
     np.testing.assert_array_equal(tac, expected_tac)
