@@ -39,7 +39,7 @@ def _get_mean_from(masked_values: np.array) -> float:
         return masked_values.mean()
 
 
-def get_mean_from_roi(image: np.array, roi: np.array) -> float:
+def get_mean_from_roi_mask(image: np.array, roi: np.array) -> float:
     """
     Get the mean value of the image within the ROI mask.
     Parameters
@@ -58,7 +58,7 @@ def get_mean_from_roi(image: np.array, roi: np.array) -> float:
     return roi_mean
 
 
-def get_tac_from_roi(dynamic_image: np.array, roi_mask: np.array) -> np.array:
+def get_tac_from_roi_mask(dynamic_image: np.array, roi_mask: np.array) -> np.array:
     """
     Extract the time activity curve (TAC) from a dynamic image in a given ROI mask.
     Parameters
@@ -75,5 +75,5 @@ def get_tac_from_roi(dynamic_image: np.array, roi_mask: np.array) -> np.array:
     n_frames = dynamic_image.shape[-1]
     tac = np.zeros(n_frames)
     for i, frame in enumerate(np.moveaxis(dynamic_image, -1, 0)):
-        tac[i] = get_mean_from_roi(frame, roi_mask)
+        tac[i] = get_mean_from_roi_mask(frame, roi_mask)
     return tac
