@@ -12,5 +12,5 @@ def get_nibimage_data(nibimage: nib.Nifti1Image) -> np.array:
     return nibimage.get_fdata()
 
 
-def convert_list_of_dicts_to_dataframe(list_of_dicts: list) -> pd.DataFrame:
-    return pd.DataFrame({k: v for d in list_of_dicts for k, v in d.items()})
+def convert_dict_to_df(dict_to_convert: dict) -> pd.DataFrame:
+    return pd.DataFrame.from_dict(dict_to_convert, orient="index").T

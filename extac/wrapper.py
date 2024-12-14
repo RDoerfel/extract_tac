@@ -26,11 +26,10 @@ def extract_tacs(image_file: Path, mask_file: Path, roi_file: Path, output_file:
     mask_resampled = utils.resample_from_to(mask, image)
     image_data = utils.get_nibimage_data(image)
     mask_data = utils.get_nibimage_data(mask_resampled)
-    extracted_values = []
+    extracted_values = {}
     for roi in rois:
         roi_values = get_values_for_roi(image_data, mask_data, roi["index"], dynamic=dynamic)
-        result_dict = {roi["name"]: roi_values}
-        extracted_values.append(result_dict)
+        extracted_values[roi["name"]] = roi_values
 
-    results = utils.convert_list_of_dicts_to_dataframe(extracted_values)
+    results = utils.convert_dict_to_df(extracted_values)
     io.write_tsv(results, output_file)
