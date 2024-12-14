@@ -35,27 +35,19 @@ def _get_tac_from_roi_mask(dynamic_image: np.array, roi_mask: np.array) -> np.ar
 
 
 def get_mean_from_roi(image: np.array, mask: np.array, index: list) -> np.array:
-    """Get the mean value of the image in the region of interest defined by the index.
-
-    Parameters
-    ----------
-    image : np.array
-        The image data.
-    mask : np.array
-        The mask data.
-
-    Returns
-    -------
-    np.array
-        The mean value of the image in the region of interest.
-    """
     roi_mask = _create_roi_mask_from_indices(mask, index)
     roi_mean = _get_mean_from_roi_mask(image, roi_mask)
     return np.array(roi_mean)
 
 
 def get_tac_from_roi(image: np.array, mask: np.array, index: list):
-    """Get the time activity curve of the image in the region of interest defined by the index.
+    roi_mask = _create_roi_mask_from_indices(mask, index)
+    roi_tac = _get_tac_from_roi_mask(image, roi_mask)
+    return roi_tac
+
+
+def get_values_for_roi(image: np.array, mask: np.array, roi_indices: list, dynamic: bool = False) -> np.array:
+    """Convenient function to get values for a region of interest.
 
     Parameters
     ----------
@@ -63,12 +55,19 @@ def get_tac_from_roi(image: np.array, mask: np.array, index: list):
         The image data.
     mask : np.array
         The mask data.
+    roi_indices : list
+        The indices of the region of interest.
+    dynamic : bool, optional
+        If True, extract TACs. If False, extract mean values, by default False
 
     Returns
     -------
     np.array
-        The time activity curve of the image in the region of interest.
+        The values for the region of interest.
     """
-    roi_mask = _create_roi_mask_from_indices(mask, index)
-    roi_tac = _get_tac_from_roi_mask(image, roi_mask)
-    return roi_tac
+    if dynamic:
+        values = get_tac_from_roi(image, mask, roi_indices)
+    else:
+        values = get_mean_from_roi(image, mask, roi_indices)
+
+    return values
