@@ -4,22 +4,26 @@ from extac import io
 from pathlib import Path
 
 
-def extract_tacs(image_file: Path, mask_file: Path, roi_file: Path, output_file: Path, dynamic: bool = True):
-    """Extract TACs from an image using a mask and ROIs
-    Parameters
-    ----------
-        image_file: Path
-            Path to the image file
-        mask_file: Path
-            Path to the mask file
-        roi_file: Path
-            Path to the ROI file
-        output_file: Path
-            Path to the output file
-        dynamic: bool
-            If True, extract TACs. If False, extract mean values
+def extract_tacs(
+    image_file: Path, mask_file: Path, roi_file: Path, output_file: Path, dynamic: bool = False, max_workers: int = None
+):
     """
+    Parallelize ROI extraction with optional worker count specification
 
+    Parameters:
+    -----------
+    image_file : str
+        Path to image file
+    mask_file : str
+        Path to mask file
+    roi_file : str
+        Path to ROI definition file
+    output_file : str
+        Output TSV file path
+    dynamic : bool, optional
+        Dynamic processing flag
+    """
+    # Load initial data (these remain the same for all ROIs)
     image = io.load_image(image_file)
     mask = io.load_image(mask_file)
     rois = io.read_js(roi_file)
