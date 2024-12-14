@@ -35,5 +35,7 @@ roi1	roi2
 ### ToDo
 - parallelize the extraction to run rois in parallel. Might be useful for larger dynamic images.
 - add proper documentation
-- add tests for higher order functions
-- add progres bar / information to console output
+- add tests for higher-order functions
+- add progress bar / information to console output
+- add a checker for dynamic or static. Should be easy via dimensions
+- distribute the standard fs regions with the package
