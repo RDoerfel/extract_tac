@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def _create_roi_mask_from_indices(original_mask, roi_indices):
+def create_roi_mask_from_indices(original_mask, roi_indices):
     """
     Create a boolean mask of the same shape as the original array,
     with True where values are in the list, False otherwise.
@@ -33,27 +33,47 @@ def _get_values_in_roi(roi: np.array, image: np.array) -> np.array:
 
 
 def _get_mean_from(masked_values: np.array) -> float:
-    roi_mean = masked_values.mean()
-    return roi_mean
+    if len(masked_values) == 0:
+        return np.nan
+    else:
+        return masked_values.mean()
 
 
-def extract_roi_mean(region_masks: np.array, image: np.array, roi_index: list) -> float:
-    """Extract the mean value in the image within the region of interest defined by the roi_index
-    Parameters:
-    -----------
-    region_masks : numpy.ndarray
-        The mask image
-    image : numpy.ndarray
-        The image to extract the mean value from
-    roi_index : list
-        List of integer values to match
-
-    Returns:
-    --------
-    float
-        Mean value in the image within the region of interest
+def get_mean_from_roi(image: np.array, roi: np.array) -> float:
     """
-    roi_mask = _create_roi_mask_from_indices(region_masks, roi_index)
-    roi_values = _get_values_in_roi(roi_mask, image)
+    Get the mean value of the image within the ROI mask.
+    Parameters
+    ----------
+    image : np.array
+        The image data
+    roi : np.array
+        The mask of the ROI
+    Returns
+    -------
+    float
+        The mean value in the ROI
+    """
+    roi_values = _get_values_in_roi(roi, image)
     roi_mean = _get_mean_from(roi_values)
     return roi_mean
+
+
+def get_tac_from_roi(dynamic_image: np.array, roi_mask: np.array) -> np.array:
+    """
+    Extract the time activity curve (TAC) from a dynamic image in a given ROI mask.
+    Parameters
+    ----------
+    dynamic_image : np.array
+        The dynamic image data
+    roi_mask : np.array
+        The mask of the ROI
+    Returns
+    -------
+    np.array
+        The TAC
+    """
+    n_frames = dynamic_image.shape[-1]
+    tac = np.zeros(n_frames)
+    for i, frame in enumerate(np.moveaxis(dynamic_image, -1, 0)):
+        tac[i] = get_mean_from_roi(frame, roi_mask)
+    return tac
