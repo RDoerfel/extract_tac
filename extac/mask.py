@@ -34,7 +34,7 @@ def _get_tac_from_roi_mask(dynamic_image: np.array, roi_mask: np.array) -> np.ar
     return tac
 
 
-def get_mean_from_roi(image: np.array, mask: np.array, index: list) -> float:
+def get_mean_from_roi(image: np.array, mask: np.array, index: list) -> np.array:
     """Get the mean value of the image in the region of interest defined by the index.
 
     Parameters
@@ -46,12 +46,12 @@ def get_mean_from_roi(image: np.array, mask: np.array, index: list) -> float:
 
     Returns
     -------
-    float
+    np.array
         The mean value of the image in the region of interest.
     """
     roi_mask = _create_roi_mask_from_indices(mask, index)
     roi_mean = _get_mean_from_roi_mask(image, roi_mask)
-    return roi_mean
+    return np.array(roi_mean)
 
 
 def get_tac_from_roi(image: np.array, mask: np.array, index: list):

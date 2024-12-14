@@ -154,7 +154,7 @@ def test_get_mean_from_roi():
     image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     mean = get_mean_from_roi(image, mask, roi_index)
     expected_mean = np.array([1, 2, 3]).mean()
-    assert mean == expected_mean
+    assert mean == np.array(expected_mean)
 
 
 def test_get_tac_from_roi():
