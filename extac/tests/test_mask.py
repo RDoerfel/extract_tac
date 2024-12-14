@@ -1,4 +1,4 @@
-from src.mask import create_mask_from_indices
+from extac.mask import create_mask_from_indices
 import numpy as np
 
 

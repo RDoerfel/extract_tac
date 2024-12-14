@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "extract-tac"
+name = "extac"
 version = "0.1.0"
 description = "A simple CLI to extract regional values and time activity curves"
 authors = ["RDoerfel <doerfelruben@aol.com>"]
