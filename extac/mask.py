@@ -23,7 +23,7 @@ def _get_measure_from(masked_values: np.array, measure_func: Callable) -> float:
 
 def _get_measure_from_roi_mask(image: np.array, roi: np.array, measure_func: Callable) -> float:
     roi_values = _get_values_in_roi(roi, image)
-    return _get_measure_from(roi_values, np.median)
+    return _get_measure_from(roi_values, measure_func)
 
 
 def _get_tac_from_roi_mask(dynamic_image: np.array, roi_mask: np.array, measure_func: Callable) -> np.array:
@@ -47,11 +47,7 @@ def get_measure_from_roi(image: np.array, mask: np.array, index: list, measure_f
 
 
 def get_values_for_roi(
-    image: np.array,
-    mask: np.array,
-    roi_indices: list,
-    dynamic: bool = False,
-    measure_func: Callable = np.mean,
+    image: np.array, mask: np.array, roi_indices: list, measure_func: Callable, dynamic: bool = False
 ) -> np.array:
     """Convenient function to get values for a region of interest.
 
@@ -63,12 +59,11 @@ def get_values_for_roi(
         The mask data.
     roi_indices : list
         The indices of the region of interest.
-    measure : str
-        The measure to extract.
-    dynamic : bool, optional
-        If True, extract TACs. If False, extract mean values, by default False
     measure_func : Callable, optional
         The function to calculate the measure, by default np.mean
+    dynamic : bool, optional
+        If True, extract TACs. If False, extract mean values, by default False
+
 
     Returns
     -------

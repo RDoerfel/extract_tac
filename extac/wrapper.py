@@ -41,6 +41,7 @@ def extract_tacs(
     extracted_values = {}
     for roi in rois:
         for measure in measures:
+            print(f"Extracting {measure} for {roi['name']}")
             measure_func = utils._get_measure_func(measure)
             roi_values = get_values_for_roi(
                 image_data, mask_data, roi["index"], dynamic=dynamic, measure_func=measure_func
