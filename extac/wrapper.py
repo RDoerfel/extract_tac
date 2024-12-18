@@ -42,7 +42,9 @@ def extract_tacs(
     for roi in rois:
         for measure in measures:
             measure_func = utils._get_measure_func(measure)
-            roi_values = get_values_for_roi(image_data, mask_data, roi["index"], measure=measure_func, dynamic=dynamic)
+            roi_values = get_values_for_roi(
+                image_data, mask_data, roi["index"], dynamic=dynamic, measure_func=measure_func
+            )
             extracted_values[f"{roi['name']}_{measure}"] = roi_values
 
     results = utils.convert_dict_to_df(extracted_values)
