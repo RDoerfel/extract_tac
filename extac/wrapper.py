@@ -5,7 +5,13 @@ from pathlib import Path
 
 
 def extract_tacs(
-    image_file: Path, mask_file: Path, roi_file: Path, output_file: Path, dynamic: bool = False, max_workers: int = None
+    image_file: Path,
+    mask_file: Path,
+    roi_file: Path,
+    output_file: Path,
+    measures: list = ["mean", "median", "std"],
+    dynamic: bool = False,
+    max_workers: int = None,
 ):
     """
     Parallelize ROI extraction with optional worker count specification
@@ -20,6 +26,8 @@ def extract_tacs(
         Path to ROI definition file
     output_file : str
         Output TSV file path
+    measures : list, optional
+        List of measures to extract. Default is ["mean", "median", "std"]
     dynamic : bool, optional
         Dynamic processing flag
     """
@@ -32,8 +40,10 @@ def extract_tacs(
     mask_data = utils.get_nibimage_data(mask_resampled)
     extracted_values = {}
     for roi in rois:
-        roi_values = get_values_for_roi(image_data, mask_data, roi["index"], dynamic=dynamic)
-        extracted_values[roi["name"]] = roi_values
+        for measure in measures:
+            measure_func = utils._get_measure_func(measure)
+            roi_values = get_values_for_roi(image_data, mask_data, roi["index"], measure=measure_func, dynamic=dynamic)
+            extracted_values[f"{roi['name']}_{measure}"] = roi_values
 
     results = utils.convert_dict_to_df(extracted_values)
     io.write_tsv(results, output_file)
