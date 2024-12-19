@@ -5,6 +5,7 @@ from extac.mask import _get_measure_from_roi_mask
 from extac.mask import _get_tac_from_roi_mask
 from extac.mask import get_measure_from_roi
 from extac.mask import get_tac_from_roi
+from extac.mask import get_values_for_roi
 import numpy as np
 
 
@@ -164,3 +165,44 @@ def test_get_tac_from_roi():
     tac = get_tac_from_roi(image, mask, roi_index, np.mean)
     expected_tac = np.array([2, 2, 2, 2, 2])
     np.testing.assert_array_equal(tac, expected_tac)
+
+
+def test_get_values_for_roi_static_mean():
+    dynamic = False
+    roi_index = [1, 2, 3]
+    mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    values = get_values_for_roi(image, mask, roi_index, np.mean, dynamic)
+    expected_values = np.array([1, 2, 3]).mean()
+    assert values == expected_values
+
+
+def test_get_values_for_roi_static_count():
+    dynamic = False
+    roi_index = [1, 2, 3]
+    mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    values = get_values_for_roi(image, mask, roi_index, np.count_nonzero, dynamic)
+    expected_values = np.count_nonzero(np.array([1, 2, 3]))
+    assert values == expected_values
+
+
+def test_get_values_for_roi_dynamic_mean():
+    dynamic = True
+    roi_index = [1, 2, 3]
+    mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image = np.repeat(mask[:, :, np.newaxis], 5, axis=2)
+    values = get_values_for_roi(image, mask, roi_index, np.mean, dynamic)
+    expected_values = np.array([2, 2, 2, 2, 2])
+    np.testing.assert_array_equal(values, expected_values)
+
+
+def test_get_values_for_roi_dynamic_count():
+    dynamic = True
+    dynamic = True
+    roi_index = [1, 2, 3]
+    mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image = np.repeat(mask[:, :, np.newaxis], 5, axis=2)
+    values = get_values_for_roi(image, mask, roi_index, np.count_nonzero, dynamic)
+    expected_values = np.array([3, 3, 3, 3, 3])
+    np.testing.assert_array_equal(values, expected_values)
