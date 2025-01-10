@@ -78,6 +78,10 @@ In general, each ROI entry contains:
   - This file should follow the **BIDS notation** and include data such as `frame_start`, `frame_duration`, etc.
   - Example: `--acquisition_information /path/to/pet_image.json`
 
+- `--max_workers`: Number of parallel workers to use for processing. This works on ROI level.
+  - Default: 1
+  - Example: `--max_workers 4`
+
 ### Example Usage
 
 1. **Extract mean and standard deviation from a static image:**
