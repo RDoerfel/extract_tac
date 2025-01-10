@@ -140,5 +140,4 @@ In this example, `frame_start`, `frame_duration`, and `frame_duration` are deriv
 ### ToDo
 
 - Parallelize the extraction to process ROIs in parallel, which could be beneficial for larger dynamic images.
-- Implement a progress bar or status updates during long-running tasks.
 - Add a checker to automatically distinguish between dynamic and static data based on the image dimensions.

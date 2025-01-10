@@ -2,6 +2,7 @@ from extac.mask import get_values_for_roi
 from extac import utils
 from extac import io
 from pathlib import Path
+from tqdm import tqdm
 
 
 def process_rois(image_data, mask_data, rois, measures, dynamic=False, max_workers=None):
@@ -29,9 +30,8 @@ def process_rois(image_data, mask_data, rois, measures, dynamic=False, max_worke
         Processed data in a long format.
     """
     data = []
-    for roi in rois:
+    for roi in tqdm(rois, desc="Processing ROIs", unit="ROI"):
         for measure in measures:
-            print(f"Extracting {measure} for {roi['name']}")
             measure_func = utils._get_measure_func(measure)
             roi_values = get_values_for_roi(
                 image_data, mask_data, roi["index"], dynamic=dynamic, measure_func=measure_func
