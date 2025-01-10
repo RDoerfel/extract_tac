@@ -1,6 +1,6 @@
 import argparse
 from pathlib import Path
-from extac.wrapper import extract_tacs
+from extac.extract_tacs import extract_tacs
 
 
 def main():
