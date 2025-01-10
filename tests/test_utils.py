@@ -63,3 +63,22 @@ def test_pivot_and_sort_data():
     assert df_pivoted.shape == (4, 4)  # 2 ROIs x 2 frames
     assert df_pivoted.loc[0, "mean"] == 1.0
     assert df_pivoted.loc[3, "median"] == 5.5
+
+
+def test_add_acquisition_information():
+    data = {
+        "frame": [0, 1, 2, 0, 1, 2],
+        "roi": ["roi1", "roi1", "roi1", "roi2", "roi2", "roi3"],
+        "mean": [1, 3, 4, 3.3, 4.4, 5.5],
+    }
+
+    df = pd.DataFrame(data)
+
+    acquisition_information = {"FrameTimesStart": [0, 10, 20], "FrameDuration": [10, 10, 10]}
+
+    df = utils.add_acquisition_information(df, acquisition_information)
+    print(df)
+    assert list(df.columns) == ["frame", "roi", "mean", "frame_start", "frame_duration", "frame_center"]
+    assert np.all(df["frame_start"] == [0, 10, 20, 0, 10, 20])
+    assert np.all(df["frame_duration"] == [10, 10, 10, 10, 10, 10])
+    assert np.all(df["frame_center"] == [5.0, 15.0, 25.0, 5.0, 15.0, 25.0])

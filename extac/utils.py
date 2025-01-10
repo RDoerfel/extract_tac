@@ -58,3 +58,25 @@ def pivot_and_sort_data(data):
     df_pivoted = df_pivoted.sort_values(["roi", "frame"]).reset_index(drop=True)
 
     return df_pivoted
+
+
+def add_acquisition_information(df, acquisition_information):
+    """
+    Add acquisition information to the DataFrame.
+
+    Parameters:
+    -----------
+    df : DataFrame
+        DataFrame with extracted data.
+    acquisition_information : dict
+        Acquisition information.
+
+    Returns:
+    --------
+    DataFrame
+        DataFrame with acquisition information.
+    """
+    df["frame_start"] = [acquisition_information["FrameTimesStart"][frame] for frame in df["frame"]]
+    df["frame_duration"] = [acquisition_information["FrameDuration"][frame] for frame in df["frame"]]
+    df["frame_center"] = df["frame_start"] + df["frame_duration"] / 2
+    return df
