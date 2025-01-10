@@ -1,15 +1,19 @@
+
 # extract_tac
-This is a simple tool to extract tacs and mean values from a (dynamic) image given a segmetnation mask.
+
+This is a simple tool to extract Time Activity Curves (TACs) or single values (such as mean, median, etc.) from dynamic or static image data using a segmentation mask. It allows for extracting statistics from multiple Regions of Interest (ROIs) and can handle both static and dynamic images.
 
 ## Installation
-Easily install it from github with pip:
+
+Easily install it from GitHub using `pip`:
+
 ```bash
 pip install git+https://github.com/RDoerfel/extract_tac.git
 ```
 
 ## Command Line Interface
 
-The tool provides a command-line interface for extracting Time Activity Curves (TACs) or single values from images based on specified masks and regions of interest (ROIs).
+The tool provides a command-line interface for extracting TACs or single values from images based on specified masks and regions of interest (ROIs).
 
 ### Usage
 
@@ -19,101 +23,124 @@ python -m extract_tac --image <image_path> --mask <mask_path> --rois <rois_path>
 
 ### Required Arguments
 
-- `--image`: Path to the input image file
+- `--image`: Path to the input image file.
   - Example: `--image /path/to/pet_image.nii.gz`
 
-- `--mask`: Path to the mask file
+- `--mask`: Path to the mask file.
   - Example: `--mask /path/to/brain_mask.nii.gz`
 
-- `--rois`: Path to the ROIs file containing region definitions
+- `--rois`: Path to the ROIs file containing region definitions.
   - Example: `--rois /path/to/regions.json`
 
-- `--output`: Path where the output will be saved
+- `--output`: Path where the output will be saved.
   - Example: `--output /path/to/results.csv`
 
 ### ROI Definition File Format
 
-The ROI definition file should be in JSON format, where each ROI is defined with a name and corresponding index values. The index should corespond to values in your mask image. Here's the expected structure:
+The ROI definition file should be in JSON format, where each ROI is defined with a name and corresponding index values. The index should correspond to values in your mask image. Here's the expected structure:
 
 ```json
 [
     {
         "name": "insula",
-        "index": [
-            1035,
-            2035
-        ]
+        "index": [1035, 2035]
     },
     {
         "name": "temporal-lobe",
         "index": [
-            1001,
-            1009,
-            1015,
-            1030,
-            1034,
-            2001,
-            2009,
-            2015,
-            2030,
-            2034
+            1001, 1009, 1015, 1030, 1034,
+            2001, 2009, 2015, 2030, 2034
         ]
-    },
+    }
 ]
 ```
-I provided some examples [examples](./bin) for the Freesurfer aseg+aparc segmentations. 
+
+You can find example ROI definitions for Freesurfer aseg+aparc segmentations in the [examples](./bin) directory.
 
 In general, each ROI entry contains:
-- `name`: A string identifier for the region
+- `name`: A string identifier for the region.
 - `index`: An array of integer values representing the indices that define this region in the mask. For custom masks, this will typically be a single value.
 
 ### Optional Arguments
 
-- `--measure`: Specify one or more statistical measures to extract
+- `--measure`: Specify one or more statistical measures to extract.
   - Available options: `mean`, `median`, `std`, `count`
   - Default: All measures (`mean`, `median`, `std`, `count`)
   - Example for single measure: `--measure mean`
   - Example for multiple measures: `--measure mean std`
 
-- `--dynamic`: Flag to extract time activity curves
-  - If present: Extracts TACs over time
-  - If absent: Extracts single values per ROI
+- `--dynamic`: Flag to extract time activity curves (TACs).
+  - If present: Extracts TACs over time.
+  - If absent: Extracts single values per ROI.
   - Example: `--dynamic`
 
-### Examples
+- `--acquisition_information`: Path to a JSON sidecar file that contains frame timing information.
+  - This file should follow the **BIDS notation** and include data such as `FrameTimesStart`, `FrameDuration`, etc.
+  - Example: `--acquisition_information /path/to/pet_image.json`
 
-1. Extract mean and standard deviation from a static image:
+### Example Usage
+
+1. **Extract mean and standard deviation from a static image:**
+
 ```bash
 python -m extract_tac --image pet.nii.gz --mask brain.nii.gz --rois regions.json --output results.csv --measure mean std
 ```
 
-2. Extract all measures and generate TACs:
+2. **Extract all measures and generate TACs:**
+
 ```bash
 python -m extract_tac --image dynamic_pet.nii.gz --mask brain.nii.gz --rois regions.json --output tacs.csv --dynamic
 ```
 
-3. Extract only median values from a static image:
+3. **Extract only median values from a static image:**
+
 ```bash
 python -m extract_tac --image pet.nii.gz --mask brain.nii.gz --rois regions.json --output median_values.csv --measure median
 ```
 
 ### Output Format
 
-The tool generates a CSV file containing the requested measurements. The format varies depending on whether dynamic mode is enabled:
+The output is saved as a CSV file, which varies based on whether dynamic mode is enabled.
 
-- Static mode (default):
-  - Each row represents an ROI
-  - Columns contain the requested measures
+#### Static Mode (default):
+Each row represents an ROI, and columns contain the requested measures.
 
-- Dynamic mode (`--dynamic`):
-  - Each row represents a timepoint for each ROI
-  - Columns include timepoint, ROI identifier, and requested measures
+| roi      | mean  | median | std   | count |
+|----------|-------|--------|-------|-------|
+| roi1     | 3.5   | 3.0    | 1.2   | 10    |
+| roi2     | 2.8   | 2.5    | 0.8   | 12    |
 
+#### Dynamic Mode (`--dynamic`):
+Each row represents a frame for each ROI. Columns include `frame`, `roi` identifier, and the requested measures.
+
+| frame | roi   | mean  | median | std   |
+|-------|-------|-------|--------|-------|
+| 0     | roi1  | 1.0   | 1.0    | 0.3   |
+| 1     | roi1  | 3.0   | 3.0    | 0.5   |
+| 2     | roi1  | 4.0   | 4.0    | 0.4   |
+| 0     | roi2  | 2.5   | 2.5    | 0.2   |
+| 1     | roi2  | 3.3   | 3.3    | 0.4   |
+| 2     | roi2  | 4.2   | 4.0    | 0.3   |
+
+#### Dynamic Mode with Acquisition Information:
+If the `--acquisition_information` argument is provided, additional columns such as `FrameTimesStart` and `FrameDuration` are added to the dataframe. The frame times correspond to the `frame` column.
+
+| frame | roi   | mean  | FrameTimesStart | FrameDuration |
+|-------|-------|-------|-----------------|---------------|
+| 0     | roi1  | 1.0   | 0.0             | 0.5           |
+| 1     | roi1  | 3.0   | 0.5             | 0.5           |
+| 2     | roi1  | 4.0   | 1.0             | 0.5           |
+| 0     | roi2  | 2.5   | 0.0             | 0.5           |
+| 1     | roi2  | 3.3   | 0.5             | 0.5           |
+| 2     | roi2  | 4.2   | 1.0             | 0.5           |
+
+In this example, `FrameTimesStart` and `FrameDuration` are derived from the acquisition sidecar.
 
 ### ToDo
-- parallelize the extraction to run rois in parallel. Might be useful for larger dynamic images.
-- add proper documentation
-- add tests for higher-order functions
-- add progress bar / information to console output
-- add a checker for dynamic or static. Should be easy via dimensions
-- distribute the standard fs regions with the package
+
+- Parallelize the extraction to process ROIs in parallel, which could be beneficial for larger dynamic images.
+- Add proper documentation and examples for using the tool effectively.
+- Add tests for higher-order functions to ensure robustness.
+- Implement a progress bar or status updates during long-running tasks.
+- Add a checker to automatically distinguish between dynamic and static data based on the image dimensions.
+- Distribute the standard FS regions with the package to simplify usage.

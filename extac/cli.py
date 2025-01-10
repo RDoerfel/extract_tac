@@ -10,6 +10,13 @@ def main():
     parser.add_argument("--rois", type=Path, required=True, help="Path to the output reference region file")
     parser.add_argument("--output", type=Path, required=True, help="Path to the output file")
     parser.add_argument(
+        "--acquisition_information",
+        type=Path,
+        help=" Path to json sidecar that contains the frame timing information. Should follow BIDS notation. \
+        Additional information such as FrameTimeStart, FrameDuration will be added.",
+        default=None,
+    )
+    parser.add_argument(
         "--measure",
         type=str,
         nargs="+",
@@ -23,7 +30,9 @@ def main():
         help="If True, extract TACs. If False, extract only the measure per ROI values",
     )
     args = parser.parse_args()
-    extract_tacs(args.image, args.mask, args.rois, args.output, args.measure, args.dynamic)
+    extract_tacs(
+        args.image, args.mask, args.rois, args.output, args.measure, args.dynamic, args.acquisition_information
+    )
 
 
 if __name__ == "__main__":
