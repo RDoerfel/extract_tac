@@ -48,13 +48,13 @@ def pivot_and_sort_data(data):
     df = pd.DataFrame(data)
 
     # Pivot the DataFrame
-    df_pivoted = df.pivot(index=["timepoint", "roi"], columns="measure", values="value").reset_index()
+    df_pivoted = df.pivot(index=["frame", "roi"], columns="measure", values="value").reset_index()
 
     # Flatten the multi-level columns
     df_pivoted.columns.name = None
     df_pivoted.columns = [col if isinstance(col, str) else col for col in df_pivoted.columns]
 
-    # Sort by ROI with increasing timepoint
-    df_pivoted = df_pivoted.sort_values(["roi", "timepoint"]).reset_index(drop=True)
+    # Sort by ROI with increasing frame
+    df_pivoted = df_pivoted.sort_values(["roi", "frame"]).reset_index(drop=True)
 
     return df_pivoted

@@ -52,7 +52,7 @@ def test_process_rois_static(mock_data, mock_get_values_for_roi):
     data = extract_tacs.process_rois(image_data, mask_data, rois, measures, dynamic=False)
 
     # Assertions
-    assert len(data) == 4  # 2 ROIs x 2 measures x 1 timepoint
+    assert len(data) == 4  # 2 ROIs x 2 measures x 1 frame
     assert data[0]["roi"] == "roi1"
     assert data[0]["value"] == 5
     assert data[-1]["roi"] == "roi2"
@@ -65,10 +65,10 @@ def test_process_rois_dynamic(mock_data, mock_get_values_for_roi):
     data = extract_tacs.process_rois(image_data, mask_data, rois, measures, dynamic=True)
 
     # Assertions
-    assert len(data) == 20  # 2 ROIs x 2 measures x 5 timepoints
+    assert len(data) == 20  # 2 ROIs x 2 measures x 5 frames
     assert data[0]["roi"] == "roi1"
-    assert data[0]["timepoint"] == 0
+    assert data[0]["frame"] == 0
     assert data[0]["value"] == 1
     assert data[-1]["roi"] == "roi2"
-    assert data[-1]["timepoint"] == 4
+    assert data[-1]["frame"] == 4
     assert data[-1]["value"] == 10

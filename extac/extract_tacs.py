@@ -39,7 +39,7 @@ def process_rois(image_data, mask_data, rois, measures, dynamic=False, max_worke
             data.extend(
                 [
                     {
-                        "timepoint": t,
+                        "frame": t,
                         "roi": roi["name"],
                         "measure": measure,
                         "value": val,
