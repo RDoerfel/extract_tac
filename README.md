@@ -124,15 +124,14 @@ Each row represents a frame for each ROI. Columns include `frame`, `roi` identif
 
 #### Dynamic Mode with Acquisition Information:
 If the `--acquisition_information` argument is provided, additional columns such as `frame_start` and `frame_duration` are added to the dataframe. The frame times correspond to the `frame` column.
-
-| frame | roi   | mean  | frame_start | frame_duration | frame_center |
-|-------|-------|-------|-------------|----------------|--------------|
-| 0     | roi1  | 1.0   | 0           | 10             | 5            |
-| 1     | roi1  | 3.0   | 10          | 10             | 15           |
-| 2     | roi1  | 4.0   | 20          | 10             | 25           |
-| 0     | roi2  | 2.5   | 0           | 10             | 5            |
-| 1     | roi2  | 3.3   | 10          | 10             | 15           |
-| 2     | roi2  | 4.2   | 20          | 10             | 25           |
+| frame | roi   | count | mean  | std   | median | frame_start | frame_duration | frame_center |
+|-------|-------|-------|-------|-------|--------|-------------|----------------|--------------|
+| 0     | roi1  | 10    | 1.0   | 0.3   | 1.0    | 0           | 10             | 5            |
+| 1     | roi1  | 12    | 3.0   | 0.5   | 3.0    | 10          | 10             | 15           |
+| 2     | roi1  | 15    | 4.0   | 0.4   | 4.0    | 20          | 10             | 25           |
+| 0     | roi2  | 8     | 2.5   | 0.2   | 2.5    | 0           | 10             | 5            |
+| 1     | roi2  | 10    | 3.3   | 0.4   | 3.3    | 10          | 10             | 15           |
+| 2     | roi2  | 11    | 4.2   | 0.3   | 4.0    | 20          | 10             | 25           |
 
 
 In this example, `frame_start`, `frame_duration`, and `frame_duration` are derived from the acquisition sidecar.
