@@ -7,30 +7,108 @@ Easily install it from github with pip:
 pip install git+https://github.com/RDoerfel/extract_tac.git
 ```
 
-## Usage
+## Command Line Interface
+
+The tool provides a command-line interface for extracting Time Activity Curves (TACs) or single values from images based on specified masks and regions of interest (ROIs).
+
+### Usage
+
 ```bash
-extract_tac --image image_file --mask mask_file --rois roi_file --output output_file --dynamic
+python -m extract_tac --image <image_path> --mask <mask_path> --rois <rois_path> --output <output_path> [options]
 ```
-There are generally two modes to extract tacs: static and dynamic. This is indicated by the flag `--dynamic`. In static mode, the image is a static image (only one frame). In dynamic mode, the image is a dynamic image such as acquired during PET imaging. 
 
-Carefule, at the moment there is no check whether the image is actually dynamic or not. so the user should be aware of the image type ;).
+### Required Arguments
 
-The rois file is a json file with the following format:
-```
-{
-    "roi1": [1, 2, 3],
-    "roi2": [4, 5, 6],
-}
-```
-There are some example images and rois in the `bin` folder. The examples are based on the aparc+aseg segmentation provided by FreeSurfer. But generally, any mask and appropriate rois file should work. There need to be a corresponding index in the mask for each roi. 
+- `--image`: Path to the input image file
+  - Example: `--image /path/to/pet_image.nii.gz`
 
-The output file is a csv file with the following format is a .tsv file that contains the mean for each roi in the .json file. It currently looks like this:
-```tsv
-roi1	roi2
-0.1 0.2
-0.3 0.4
-0.5 0.6
+- `--mask`: Path to the mask file
+  - Example: `--mask /path/to/brain_mask.nii.gz`
+
+- `--rois`: Path to the ROIs file containing region definitions
+  - Example: `--rois /path/to/regions.json`
+
+- `--output`: Path where the output will be saved
+  - Example: `--output /path/to/results.csv`
+
+### ROI Definition File Format
+
+The ROI definition file should be in JSON format, where each ROI is defined with a name and corresponding index values. The index should corespond to values in your mask image. Here's the expected structure:
+
+```json
+[
+    {
+        "name": "insula",
+        "index": [
+            1035,
+            2035
+        ]
+    },
+    {
+        "name": "temporal-lobe",
+        "index": [
+            1001,
+            1009,
+            1015,
+            1030,
+            1034,
+            2001,
+            2009,
+            2015,
+            2030,
+            2034
+        ]
+    },
+]
 ```
+I provided some examples [examples](./bin) for the Freesurfer aseg+aparc segmentations. 
+
+In general, each ROI entry contains:
+- `name`: A string identifier for the region
+- `index`: An array of integer values representing the indices that define this region in the mask. For custom masks, this will typically be a single value.
+
+### Optional Arguments
+
+- `--measure`: Specify one or more statistical measures to extract
+  - Available options: `mean`, `median`, `std`, `count`
+  - Default: All measures (`mean`, `median`, `std`, `count`)
+  - Example for single measure: `--measure mean`
+  - Example for multiple measures: `--measure mean std`
+
+- `--dynamic`: Flag to extract time activity curves
+  - If present: Extracts TACs over time
+  - If absent: Extracts single values per ROI
+  - Example: `--dynamic`
+
+### Examples
+
+1. Extract mean and standard deviation from a static image:
+```bash
+python -m extract_tac --image pet.nii.gz --mask brain.nii.gz --rois regions.json --output results.csv --measure mean std
+```
+
+2. Extract all measures and generate TACs:
+```bash
+python -m extract_tac --image dynamic_pet.nii.gz --mask brain.nii.gz --rois regions.json --output tacs.csv --dynamic
+```
+
+3. Extract only median values from a static image:
+```bash
+python -m extract_tac --image pet.nii.gz --mask brain.nii.gz --rois regions.json --output median_values.csv --measure median
+```
+
+### Output Format
+
+The tool generates a CSV file containing the requested measurements. The format varies depending on whether dynamic mode is enabled:
+
+- Static mode (default):
+  - Each row represents an ROI
+  - Columns contain the requested measures
+
+- Dynamic mode (`--dynamic`):
+  - Each row represents a timepoint for each ROI
+  - Columns include timepoint, ROI identifier, and requested measures
+
 
 ### ToDo
 - parallelize the extraction to run rois in parallel. Might be useful for larger dynamic images.
