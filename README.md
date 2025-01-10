@@ -33,7 +33,7 @@ python -m extract_tac --image <image_path> --mask <mask_path> --rois <rois_path>
   - Example: `--rois /path/to/regions.json`
 
 - `--output`: Path where the output will be saved.
-  - Example: `--output /path/to/results.csv`
+  - Example: `--output /path/to/results.tsv`
 
 ### ROI Definition File Format
 
@@ -83,24 +83,24 @@ In general, each ROI entry contains:
 1. **Extract mean and standard deviation from a static image:**
 
 ```bash
-python -m extract_tac --image pet.nii.gz --mask brain.nii.gz --rois regions.json --output results.csv --measure mean std
+python -m extract_tac --image pet.nii.gz --mask brain.nii.gz --rois regions.json --output results.tsv --measure mean std
 ```
 
 2. **Extract all measures and generate TACs:**
 
 ```bash
-python -m extract_tac --image dynamic_pet.nii.gz --mask brain.nii.gz --rois regions.json --output tacs.csv --dynamic
+python -m extract_tac --image dynamic_pet.nii.gz --mask brain.nii.gz --rois regions.json --output tacs.tsv --dynamic
 ```
 
 3. **Extract only median values from a static image:**
 
 ```bash
-python -m extract_tac --image pet.nii.gz --mask brain.nii.gz --rois regions.json --output median_values.csv --measure median
+python -m extract_tac --image pet.nii.gz --mask brain.nii.gz --rois regions.json --output median_values.tsv --measure median
 ```
 
 ### Output Format
 
-The output is saved as a CSV file, which varies based on whether dynamic mode is enabled.
+The output is saved as a.tsv file, which varies based on whether dynamic mode is enabled.
 
 #### Static Mode (default):
 Each row represents an ROI, and columns contain the requested measures.
