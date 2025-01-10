@@ -75,7 +75,7 @@ In general, each ROI entry contains:
   - Example: `--dynamic`
 
 - `--acquisition_information`: Path to a JSON sidecar file that contains frame timing information.
-  - This file should follow the **BIDS notation** and include data such as `FrameTimesStart`, `FrameDuration`, etc.
+  - This file should follow the **BIDS notation** and include data such as `frame_start`, `frame_duration`, etc.
   - Example: `--acquisition_information /path/to/pet_image.json`
 
 ### Example Usage
@@ -123,18 +123,19 @@ Each row represents a frame for each ROI. Columns include `frame`, `roi` identif
 | 2     | roi2  | 4.2   | 4.0    | 0.3   |
 
 #### Dynamic Mode with Acquisition Information:
-If the `--acquisition_information` argument is provided, additional columns such as `FrameTimesStart` and `FrameDuration` are added to the dataframe. The frame times correspond to the `frame` column.
+If the `--acquisition_information` argument is provided, additional columns such as `frame_start` and `frame_duration` are added to the dataframe. The frame times correspond to the `frame` column.
 
-| frame | roi   | mean  | FrameTimesStart | FrameDuration |
-|-------|-------|-------|-----------------|---------------|
-| 0     | roi1  | 1.0   | 0.0             | 0.5           |
-| 1     | roi1  | 3.0   | 0.5             | 0.5           |
-| 2     | roi1  | 4.0   | 1.0             | 0.5           |
-| 0     | roi2  | 2.5   | 0.0             | 0.5           |
-| 1     | roi2  | 3.3   | 0.5             | 0.5           |
-| 2     | roi2  | 4.2   | 1.0             | 0.5           |
+| frame | roi   | mean  | frame_start | frame_duration | frame_center |
+|-------|-------|-------|-------------|----------------|--------------|
+| 0     | roi1  | 1.0   | 0           | 10             | 5            |
+| 1     | roi1  | 3.0   | 20          | 10             | 25           |
+| 2     | roi1  | 4.0   | 30          | 10             | 35           |
+| 0     | roi2  | 2.5   | 0           | 10             | 5            |
+| 1     | roi2  | 3.3   | 20          | 10             | 25           |
+| 2     | roi2  | 4.2   | 30          | 10             | 35           |
 
-In this example, `FrameTimesStart` and `FrameDuration` are derived from the acquisition sidecar.
+
+In this example, `frame_start`, `frame_duration`, and `frame_duration` are derived from the acquisition sidecar.
 
 ### ToDo
 
