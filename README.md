@@ -63,7 +63,7 @@ In general, each ROI entry contains:
 
 ### Optional Arguments
 
-- `--measure`: Specify one or more statistical measures to extract.
+- `--measure`: Specify one or more statistics to extract.
   - Available options: `mean`, `median`, `std`, `count`
   - Default: All measures (`mean`, `median`, `std`, `count`)
   - Example for single measure: `--measure mean`
