@@ -199,7 +199,6 @@ def test_get_values_for_roi_dynamic_mean():
 
 def test_get_values_for_roi_dynamic_count():
     dynamic = True
-    dynamic = True
     roi_index = [1, 2, 3]
     mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     image = np.repeat(mask[:, :, np.newaxis], 5, axis=2)
