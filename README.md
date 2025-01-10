@@ -128,11 +128,11 @@ If the `--acquisition_information` argument is provided, additional columns such
 | frame | roi   | mean  | frame_start | frame_duration | frame_center |
 |-------|-------|-------|-------------|----------------|--------------|
 | 0     | roi1  | 1.0   | 0           | 10             | 5            |
-| 1     | roi1  | 3.0   | 20          | 10             | 25           |
-| 2     | roi1  | 4.0   | 30          | 10             | 35           |
+| 1     | roi1  | 3.0   | 10          | 10             | 15           |
+| 2     | roi1  | 4.0   | 20          | 10             | 25           |
 | 0     | roi2  | 2.5   | 0           | 10             | 5            |
-| 1     | roi2  | 3.3   | 20          | 10             | 25           |
-| 2     | roi2  | 4.2   | 30          | 10             | 35           |
+| 1     | roi2  | 3.3   | 10          | 10             | 15           |
+| 2     | roi2  | 4.2   | 20          | 10             | 25           |
 
 
 In this example, `frame_start`, `frame_duration`, and `frame_duration` are derived from the acquisition sidecar.
