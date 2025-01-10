@@ -2,6 +2,7 @@ from extac.mask import get_values_for_roi
 from extac import utils
 from extac import io
 from pathlib import Path
+import pandas as pd
 
 
 def extract_tacs(
@@ -38,7 +39,7 @@ def extract_tacs(
     mask_resampled = utils.resample_from_to(mask, image)
     image_data = utils.get_nibimage_data(image)
     mask_data = utils.get_nibimage_data(mask_resampled)
-    extracted_values = {}
+    data = []
     for roi in rois:
         for measure in measures:
             print(f"Extracting {measure} for {roi['name']}")
@@ -46,7 +47,28 @@ def extract_tacs(
             roi_values = get_values_for_roi(
                 image_data, mask_data, roi["index"], dynamic=dynamic, measure_func=measure_func
             )
-            extracted_values[f"{roi['name']}_{measure}"] = roi_values
+            data.extend(
+                [
+                    {
+                        "timepoint": t,
+                        "roi": roi["name"],
+                        "measure": measure,
+                        "value": val,
+                    }
+                    for t, val in enumerate(roi_values)
+                ]
+            )
 
-    results = utils.convert_dict_to_df(extracted_values)
-    io.write_tsv(results, output_file)
+    # convert to DataFrame
+    df = pd.DataFrame(data)
+
+    df_pivoted = df.pivot(index=["timepoint", "roi"], columns="measure", values="value").reset_index()
+
+    # Flatten the multi-level columns created by pivot
+    df_pivoted.columns.name = None
+    df_pivoted.columns = [col if isinstance(col, str) else col for col in df_pivoted.columns]
+
+    # Sort by roi with increasing timepoint
+    df_pivoted = df_pivoted.sort_values(["roi", "timepoint"]).reset_index(drop=True)
+
+    io.write_tsv(df_pivoted, output_file)
