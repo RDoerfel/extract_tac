@@ -29,6 +29,9 @@ def process_rois(image_data, mask_data, rois, measures, dynamic=False, max_worke
     list
         Processed data in a long format.
     """
+    # print message Provessing n ROIs with m measures in dynamic mode
+    print(f"Processing {len(rois)} ROIs with {len(measures)} measures in {'dynamic' if dynamic else 'static'} mode")
+
     data = []
     for roi in tqdm(rois, desc="Processing ROIs", unit="ROI"):
         for measure in measures:
