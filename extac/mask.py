@@ -73,6 +73,7 @@ def get_values_for_roi(
     if dynamic:
         values = get_tac_from_roi(image, mask, roi_indices, measure_func)
     else:
-        values = get_measure_from_roi(image, mask, roi_indices, measure_func)
+        value = get_measure_from_roi(image, mask, roi_indices, measure_func)
+        values = np.array([value])
 
     return values
