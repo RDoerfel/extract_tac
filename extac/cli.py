@@ -29,9 +29,22 @@ def main():
         action="store_true",
         help="If True, extract TACs. If False, extract only the measure per ROI values",
     )
+    parser.add_argument(
+        "--max_workers",
+        type=int,
+        default=1,
+        help="Maximum number of workers for parallel processing. Defaults to 1.",
+    )
     args = parser.parse_args()
     extract_tacs(
-        args.image, args.mask, args.rois, args.output, args.measure, args.dynamic, args.acquisition_information
+        image_file=args.image,
+        mask_file=args.mask,
+        roi_file=args.rois,
+        output_file=args.output,
+        measures=args.measure,
+        dynamic=args.dynamic,
+        acquision_information_file=args.acquisition_information,
+        max_workers=args.max_workers,
     )
 
 

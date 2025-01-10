@@ -3,9 +3,32 @@ from extac import utils
 from extac import io
 from pathlib import Path
 from tqdm import tqdm
+import concurrent.futures
 
 
-def process_rois(image_data, mask_data, rois, measures, dynamic=False, max_workers=None):
+def process_single_roi(roi, image_data, mask_data, measures, dynamic):
+    """
+    Process a single ROI and return the results.
+    """
+    data_roi = []
+    for measure in measures:
+        measure_func = utils._get_measure_func(measure)
+        roi_values = get_values_for_roi(image_data, mask_data, roi["index"], dynamic=dynamic, measure_func=measure_func)
+        data_roi.extend(
+            [
+                {
+                    "frame": t,
+                    "roi": roi["name"],
+                    "measure": measure,
+                    "value": val,
+                }
+                for t, val in enumerate(roi_values)
+            ]
+        )
+    return data_roi
+
+
+def process_rois(image_data, mask_data, rois, measures, dynamic=False, max_workers=1):
     """
     Process ROIs and extract specified measures.
 
@@ -22,7 +45,7 @@ def process_rois(image_data, mask_data, rois, measures, dynamic=False, max_worke
     dynamic : bool, optional
         Dynamic processing flag.
     max_workers : int, optional
-        Maximum number of workers for parallel processing.
+        Maximum number of workers for parallel processing. Defaults to 1.
 
     Returns:
     --------
@@ -30,26 +53,22 @@ def process_rois(image_data, mask_data, rois, measures, dynamic=False, max_worke
         Processed data in a long format.
     """
     # print message Provessing n ROIs with m measures in dynamic mode
-    print(f"Processing {len(rois)} ROIs with {len(measures)} measures in {'dynamic' if dynamic else 'static'} mode")
+    print(
+        f"Processing {len(rois)} ROIs with {len(measures)} measures in {'dynamic' if dynamic else 'static'} mode with {max_workers} workers"
+    )
 
     data = []
-    for roi in tqdm(rois, desc="Processing ROIs", unit="ROI"):
-        for measure in measures:
-            measure_func = utils._get_measure_func(measure)
-            roi_values = get_values_for_roi(
-                image_data, mask_data, roi["index"], dynamic=dynamic, measure_func=measure_func
-            )
-            data.extend(
-                [
-                    {
-                        "frame": t,
-                        "roi": roi["name"],
-                        "measure": measure,
-                        "value": val,
-                    }
-                    for t, val in enumerate(roi_values)
-                ]
-            )
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Use tqdm to track progress while using map
+        future_to_roi = {
+            executor.submit(process_single_roi, roi, image_data, mask_data, measures, dynamic): roi for roi in rois
+        }
+        with tqdm(total=len(rois), desc="Processing ROIs", unit="ROI") as pbar:
+            for future in concurrent.futures.as_completed(future_to_roi):
+                data_roi = future.result()
+                data.extend(data_roi)
+                pbar.update()  # Update the progress bar for each completed ROI
+
     return data
 
 
@@ -61,7 +80,7 @@ def extract_tacs(
     measures: list = ["mean", "median", "std"],
     dynamic: bool = False,
     acquision_information_file: Path = None,
-    max_workers: int = None,
+    max_workers: int = 1,
 ):
     """
     Wrapper function for file handling and delegating ROI extraction tasks.
@@ -84,7 +103,7 @@ def extract_tacs(
         Path to json sidecar that contains the frame timing information. Should follow BIDS notation.
         If this is provided, addiinformation such as FrameTimeStart, FrameDuration will be added.
     max_workers : int, optional
-        Maximum number of workers for parallel processing.
+        Maximum number of workers for parallel processing. Defaults to 1.
     """
     # Load files
     image = io.load_image(image_file)
