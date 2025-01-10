@@ -2,7 +2,6 @@ from extac.mask import get_values_for_roi
 from extac import utils
 from extac import io
 from pathlib import Path
-import pandas as pd
 
 
 def process_rois(image_data, mask_data, rois, measures, dynamic=False, max_workers=None):
@@ -51,35 +50,6 @@ def process_rois(image_data, mask_data, rois, measures, dynamic=False, max_worke
     return data
 
 
-def pivot_and_sort_data(data):
-    """
-    Pivot and sort data for final output.
-
-    Parameters:
-    -----------
-    data : list
-        Processed data in a long format.
-
-    Returns:
-    --------
-    DataFrame
-        Pivoted and sorted DataFrame.
-    """
-    df = pd.DataFrame(data)
-
-    # Pivot the DataFrame
-    df_pivoted = df.pivot(index=["timepoint", "roi"], columns="measure", values="value").reset_index()
-
-    # Flatten the multi-level columns
-    df_pivoted.columns.name = None
-    df_pivoted.columns = [col if isinstance(col, str) else col for col in df_pivoted.columns]
-
-    # Sort by ROI with increasing timepoint
-    df_pivoted = df_pivoted.sort_values(["roi", "timepoint"]).reset_index(drop=True)
-
-    return df_pivoted
-
-
 def extract_tacs(
     image_file: Path,
     mask_file: Path,
@@ -123,5 +93,5 @@ def extract_tacs(
     data = process_rois(image_data, mask_data, rois, measures, dynamic=dynamic, max_workers=max_workers)
 
     # Convert data to DataFrame and save
-    df_pivoted = pivot_and_sort_data(data)
+    df_pivoted = utils.pivot_and_sort_data(data)
     io.write_tsv(df_pivoted, output_file)

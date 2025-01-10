@@ -41,3 +41,25 @@ def test_get_measure_func_invalid():
         assert str(e) == "Invalid measure string"
     else:
         assert False, "Expected ValueError"
+
+
+def test_pivot_and_sort_data():
+    # Mock data in long format
+    data = [
+        {"timepoint": 0, "roi": "roi1", "measure": "mean", "value": 1.0},
+        {"timepoint": 1, "roi": "roi1", "measure": "mean", "value": 2.0},
+        {"timepoint": 0, "roi": "roi1", "measure": "median", "value": 1.5},
+        {"timepoint": 1, "roi": "roi1", "measure": "median", "value": 2.5},
+        {"timepoint": 0, "roi": "roi2", "measure": "mean", "value": 4.0},
+        {"timepoint": 1, "roi": "roi2", "measure": "mean", "value": 5.0},
+        {"timepoint": 0, "roi": "roi2", "measure": "median", "value": 4.5},
+        {"timepoint": 1, "roi": "roi2", "measure": "median", "value": 5.5},
+    ]
+
+    df_pivoted = utils.pivot_and_sort_data(data)
+
+    # Assertions
+    assert list(df_pivoted.columns) == ["timepoint", "roi", "mean", "median"]
+    assert df_pivoted.shape == (4, 4)  # 2 ROIs x 2 timepoints
+    assert df_pivoted.loc[0, "mean"] == 1.0
+    assert df_pivoted.loc[3, "median"] == 5.5

@@ -29,3 +29,32 @@ def _get_measure_func(measure_string: str) -> Callable:
     else:
         raise ValueError("Invalid measure string")
     return
+
+
+def pivot_and_sort_data(data):
+    """
+    Pivot and sort data for final output.
+
+    Parameters:
+    -----------
+    data : list
+        Processed data in a long format.
+
+    Returns:
+    --------
+    DataFrame
+        Pivoted and sorted DataFrame.
+    """
+    df = pd.DataFrame(data)
+
+    # Pivot the DataFrame
+    df_pivoted = df.pivot(index=["timepoint", "roi"], columns="measure", values="value").reset_index()
+
+    # Flatten the multi-level columns
+    df_pivoted.columns.name = None
+    df_pivoted.columns = [col if isinstance(col, str) else col for col in df_pivoted.columns]
+
+    # Sort by ROI with increasing timepoint
+    df_pivoted = df_pivoted.sort_values(["roi", "timepoint"]).reset_index(drop=True)
+
+    return df_pivoted
