@@ -131,11 +131,11 @@ If the `--acquisition_information` argument is provided, additional columns such
 | Frame | ROI   | Volume(voxels) | Mean(Bq/ml)  | Std(Bq/ml)   | Median(Bq/ml) | FrameStart(s) | FrameDuration(s) | FrameCenter(s) |
 |-------|-------|-------|-------|-------|--------|-------------|----------------|--------------|
 | 0     | roi1  | 10    | 1.0   | 0.3   | 1.0    | 0           | 10             | 5            |
-| 1     | roi1  | 12    | 3.0   | 0.5   | 3.0    | 10          | 10             | 15           |
-| 2     | roi1  | 15    | 4.0   | 0.4   | 4.0    | 20          | 10             | 25           |
-| 0     | roi2  | 8     | 2.5   | 0.2   | 2.5    | 0           | 10             | 5            |
-| 1     | roi2  | 10    | 3.3   | 0.4   | 3.3    | 10          | 10             | 15           |
-| 2     | roi2  | 11    | 4.2   | 0.3   | 4.0    | 20          | 10             | 25           |
+| 1     | roi1  | 10    | 3.0   | 0.5   | 3.0    | 10          | 10             | 15           |
+| 2     | roi1  | 10    | 4.0   | 0.4   | 4.0    | 20          | 10             | 25           |
+| 0     | roi2  | 5     | 2.5   | 0.2   | 2.5    | 0           | 10             | 5            |
+| 1     | roi2  | 5     | 3.3   | 0.4   | 3.3    | 10          | 10             | 15           |
+| 2     | roi2  | 5     | 4.2   | 0.3   | 4.0    | 20          | 10             | 25           |
 
 
 In this example, `FrameStart(s)`, `FrameDuration(s)`, and `FrameCenter(s)` are derived from the acquisition sidecar.
