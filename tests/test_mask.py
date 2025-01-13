@@ -182,8 +182,8 @@ def test_get_values_for_roi_static_volume():
     roi_index = [1, 2, 3]
     mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-    values = get_values_for_roi(image, mask, roi_index, np.volume_nonzero, dynamic)
-    expected_values = np.volume_nonzero(np.array([1, 2, 3]))
+    values = get_values_for_roi(image, mask, roi_index, len, dynamic)
+    expected_values = len(np.array([1, 2, 3]))
     assert values == expected_values
 
 
@@ -202,6 +202,6 @@ def test_get_values_for_roi_dynamic_volume():
     roi_index = [1, 2, 3]
     mask = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     image = np.repeat(mask[:, :, np.newaxis], 5, axis=2)
-    values = get_values_for_roi(image, mask, roi_index, np.volume_nonzero, dynamic)
+    values = get_values_for_roi(image, mask, roi_index, len, dynamic)
     expected_values = np.array([3, 3, 3, 3, 3])
     np.testing.assert_array_equal(values, expected_values)

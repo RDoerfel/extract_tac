@@ -74,11 +74,15 @@ def test_add_acquisition_information():
 
     df = pd.DataFrame(data)
 
-    acquisition_information = {"FrameTimesStart": [0, 10, 20], "FrameDuration": [10, 10, 10]}
+    acquisition_information = {
+        "FrameTimesStart": [0, 10, 20],
+        "FrameDuration": [10, 10, 10],
+        "Units": "Bq/ml",
+    }
 
     df = utils.add_acquisition_information(df, acquisition_information)
     print(df)
-    assert list(df.columns) == ["frame", "roi", "mean", "frame_start", "frame_duration", "frame_center"]
-    assert np.all(df["frame_start"] == [0, 10, 20, 0, 10, 20])
-    assert np.all(df["frame_duration"] == [10, 10, 10, 10, 10, 10])
-    assert np.all(df["frame_center"] == [5.0, 15.0, 25.0, 5.0, 15.0, 25.0])
+    assert list(df.columns) == ["Frame", "ROI", "Mean(Bq/ml)", "FrameStart(s)", "FrameDuration(s)", "FrameCenter(s)"]
+    assert np.all(df["FrameStart(s)"] == [0, 10, 20, 0, 10, 20])
+    assert np.all(df["FrameDuration(s)"] == [10, 10, 10, 10, 10, 10])
+    assert np.all(df["FrameCenter(s)"] == [5.0, 15.0, 25.0, 5.0, 15.0, 25.0])
