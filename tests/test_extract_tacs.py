@@ -53,10 +53,14 @@ def test_process_rois_static(mock_data, mock_get_values_for_roi):
 
     # Assertions
     assert len(data) == 4  # 2 ROIs x 2 measures x 1 frame
-    assert data[0]["roi"] == "roi1"
-    assert data[0]["value"] == 5
-    assert data[-1]["roi"] == "roi2"
-    assert data[-1]["value"] == 6
+
+    # Create a dictionary to easily check values
+    data_dict = {(item["roi"], item["measure"]): item["value"] for item in data}
+
+    assert data_dict[("roi1", "mean")] == 5
+    assert data_dict[("roi2", "mean")] == 6
+    assert data_dict[("roi1", "median")] == 5
+    assert data_dict[("roi2", "median")] == 6
 
 
 def test_process_rois_dynamic(mock_data, mock_get_values_for_roi):
