@@ -117,6 +117,9 @@ def extract_tacs(
     image_data = utils.get_nibimage_data(image)
     mask_data = utils.get_nibimage_data(mask_resampled)
 
+    # make sure the mask is integer type
+    mask_data = mask_data.astype(int)
+
     # Delegate processing
     data = process_rois(image_data, mask_data, rois, measures, dynamic=dynamic, max_workers=max_workers)
 
