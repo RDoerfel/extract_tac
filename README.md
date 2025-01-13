@@ -64,8 +64,8 @@ In general, each ROI entry contains:
 ### Optional Arguments
 
 - `--measure`: Specify one or more statistics to extract.
-  - Available options: `mean`, `median`, `std`, `count`
-  - Default: All measures (`mean`, `median`, `std`, `count`)
+  - Available options: `mean`, `median`, `std`, `volume`
+  - Default: All measures (`mean`, `median`, `std`, `volume`)
   - Example for single measure: `--measure mean`
   - Example for multiple measures: `--measure mean std`
 
@@ -109,7 +109,7 @@ The output is saved as a.tsv file, which varies based on whether dynamic mode is
 #### Static Mode (default):
 Each row represents an ROI, and columns contain the requested measures.
 
-| roi      | mean  | median | std   | count |
+| roi      | mean  | median | std   | volume |
 |----------|-------|--------|-------|-------|
 | roi1     | 3.5   | 3.0    | 1.2   | 10    |
 | roi2     | 2.8   | 2.5    | 0.8   | 12    |
@@ -128,7 +128,7 @@ Each row represents a frame for each ROI. Columns include `frame`, `roi` identif
 
 #### Dynamic Mode with Acquisition Information:
 If the `--acquisition_information` argument is provided, additional columns such as `frame_start` and `frame_duration` are added to the dataframe. The frame times correspond to the `frame` column.
-| frame | roi   | count | mean  | std   | median | frame_start | frame_duration | frame_center |
+| frame | roi   | volume | mean  | std   | median | frame_start | frame_duration | frame_center |
 |-------|-------|-------|-------|-------|--------|-------------|----------------|--------------|
 | 0     | roi1  | 10    | 1.0   | 0.3   | 1.0    | 0           | 10             | 5            |
 | 1     | roi1  | 12    | 3.0   | 0.5   | 3.0    | 10          | 10             | 15           |

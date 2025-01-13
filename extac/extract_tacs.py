@@ -77,7 +77,7 @@ def extract_tacs(
     mask_file: Path,
     roi_file: Path,
     output_file: Path,
-    measures: list = ["count", "mean", "std", "median"],
+    measures: list = ["volume", "mean", "std", "median"],
     dynamic: bool = False,
     acquision_information_file: Path = None,
     max_workers: int = 1,
@@ -96,7 +96,7 @@ def extract_tacs(
     output_file : Path
         Output TSV file path.
     measures : list, optional
-        List of measures to extract. Default is ["count", "mean", "std", "median"].
+        List of measures to extract. Default is ["volume", "mean", "std", "median"].
     dynamic : bool, optional
         Dynamic processing flag.
     acquision_information_file : Path, optional

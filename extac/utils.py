@@ -24,8 +24,8 @@ def _get_measure_func(measure_string: str) -> Callable:
         return np.median
     elif measure_string == "std":
         return np.std
-    elif measure_string == "count":
-        return np.count_nonzero
+    elif measure_string == "volume":
+        return len
     else:
         raise ValueError("Invalid measure string")
     return
