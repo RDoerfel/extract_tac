@@ -76,7 +76,25 @@ def add_acquisition_information(df, acquisition_information):
     DataFrame
         DataFrame with acquisition information.
     """
-    df["frame_start"] = [acquisition_information["FrameTimesStart"][frame] for frame in df["frame"]]
-    df["frame_duration"] = [acquisition_information["FrameDuration"][frame] for frame in df["frame"]]
-    df["frame_center"] = df["frame_start"] + df["frame_duration"] / 2
+    df["FrameStart(s)"] = [acquisition_information["FrameTimesStart"][frame] for frame in df["frame"]]
+    df["FrameDuration(s)"] = [acquisition_information["FrameDuration"][frame] for frame in df["frame"]]
+    df["FrameCenter(s)"] = df["FrameStart(s)"] + df["FrameDuration(s)"] / 2
+
+    # read unit from the json file
+    unit = acquisition_information["Units"]
+
+    # renamethe columns
+    df = df.rename(
+        columns={
+            "frame": "Frame",
+            "roi": "ROI",
+            "FrameStart(s)": "FrameStart(s)",
+            "FrameDuration(s)": "FrameDuration(s)",
+            "FrameCenter(s)": "FrameCenter(s)",
+            "volume": "Volume(voxels)",
+            "mean": f"Mean({unit})",
+            "std": f"Std({unit})",
+            "median": f"Median({unit})",
+        }
+    )
     return df
