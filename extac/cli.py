@@ -20,9 +20,9 @@ def main():
         "--measure",
         type=str,
         nargs="+",
-        default=["mean", "median", "std", "count"],
-        choices=["mean", "median", "std", "count"],
-        help="One or more measures to extract",
+        default=["count", "mean", "std", "median"],
+        choices=["count", "mean", "std", "median"],
+        help="One or more measures to extract. Default is ['count', 'mean', 'std', 'median']",
     )
     parser.add_argument(
         "--dynamic",
